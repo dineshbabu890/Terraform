@@ -1,0 +1,57 @@
+application:
+  name: "OptumCare Data Platform"
+pipeline:
+  terraform:
+    provider: azure
+    mixins:
+      terraformVersion: "0.12.8"
+      azureCliVersion: "2.0.74"
+    credentials:
+      nonprod:
+        id: azure-nonprod-2
+        type: azureServicePrincipal
+      prod:
+        id: azure-prod
+        type: azureServicePrincipal
+    environments:
+      dev:
+        prompt: false
+        branch: dev
+        deployments:
+         - name: aksBase
+           credential: nonprod
+           runOrder: 0
+           tfvars:
+             file: ./terraform-dev.tfvars           
+           remoteState:
+             resourceGroup: terraform_remote_state_rg
+             storageAccount: optumcaretfstate
+             location: eastus
+             storageContainer: aks-state           
+      stg:
+        prompt: true
+        branch: stage
+        deployments:
+         - name: aksBase
+           credential: nonprod
+           runOrder: 1
+           tfvars:
+             file: ./terraform-stage.tfvars           
+           remoteState:
+             resourceGroup: terraform_remote_state_rg
+             storageAccount: optumcaretfstate
+             location: eastus
+             storageContainer: aks-state-stage                        
+      prod:
+        prompt: true
+        deployments:
+         - name: aksBase
+           credential: prod
+           runOrder: 2
+           tfvars:
+             file: ./terraform-prod.tfvars           
+           remoteState:
+             resourceGroup: terraform_remote_state_rg
+             storageAccount: optumcaretfstateprod
+             location: eastus
+             storageContainer: aks-state                        

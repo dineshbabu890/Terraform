@@ -1,0 +1,17 @@
+variable "azure_client_id" {}
+variable "azure_client_secret" {}
+variable "location" {}
+variable "aks_resource_group_name" {}
+variable "aks_version" {}
+variable "vm_count" {}
+variable "vm_size" {}
+variable "cluster_name" {}
+variable "artifactory_user" {}
+variable "artifactory_pw" {}
+variable "aks_server_secret" {}
+variable "namespace" {}
+variable "env_name" {}
+variable "aks_client_app_id" {}
+variable "aks_server_app_id" {}
+variable "domain" {}
+variable "kafka_broker_count" {}
